@@ -1,0 +1,3 @@
+Fixed the compatibility issue with the React 19 installing a patch for antd 
+ 
+npm install @ant-design/v5-patch-for-react-19 --save

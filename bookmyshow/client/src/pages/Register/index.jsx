@@ -1,21 +1,28 @@
-import { Form, Button, Typography, Flex, Card, Input } from "antd";
+import { Form, Button, Typography, Flex, Card, Input, message } from "antd";
+import { RegisterUser } from "../../api/users";
 const Register = () => {
 
-    const onFinish = (values) => {
-
+    const onFinish = async (values) => {
+        const response = await RegisterUser(values);
+        console.log(response);
+        if (response.data.success) {
+            message.success("You are registered successfully!, Login to continue");
+        } else {
+            message.error(response.data.message);
+        }
     }
     const onFinishFailed = (errorInfo) => {
 
     }
     return (
         <Flex
-            style={{ height: "100vh" }}
             justify='center'
+            style={{ height: "100vh" }}
             align='center'
             vertical
         >
             <Card style={{ padding: 5, maxWidth: 400, width: '100%' }}>
-                <Typography.Title>Register to BookMyShow</Typography.Title>
+                <Typography.Title level={3}>Register to BookMyShow</Typography.Title>
                 <Form
                     layout="vertical"
                     onFinish={onFinish}
@@ -33,18 +40,7 @@ const Register = () => {
                             placeholder="Enter Your Name"
                         />
                     </Form.Item>
-                    <Form.Item
-                        label='User ID'
-                        name='userid'
-                        htmlFor='userid'
-                        rules={[{ required: true, message: "User ID Required" }]}
-                    >
-                        <Input
-                            id="userid"
-                            type="text"
-                            placeholder="Enter User ID"
-                        />
-                    </Form.Item>
+
                     <Form.Item
                         label='email'
                         name='email'
