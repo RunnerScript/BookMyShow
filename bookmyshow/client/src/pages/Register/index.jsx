@@ -1,7 +1,7 @@
 import { Form, Button, Typography, Flex, Card, Input, message } from "antd";
 import { RegisterUser } from "../../api/users";
-const Register = () => {
 
+const Register = () => {
     const onFinish = async (values) => {
         const response = await RegisterUser(values);
         console.log(response);
@@ -10,6 +10,7 @@ const Register = () => {
         } else {
             message.error(response.data.message);
         }
+
     }
     const onFinishFailed = (errorInfo) => {
 

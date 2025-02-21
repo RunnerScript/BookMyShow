@@ -1,12 +1,18 @@
-import { Form, Input, Checkbox, Button, Flex, Card, Typography } from "antd";
+import { Form, Input, Checkbox, Button, Flex, Card, Typography, message } from "antd";
 import { Link } from "react-router-dom";
-
+import { LoginUser } from "../../api/users";
 const Login = () => {
-    const onFinish = (values) => {
+    const onFinish = async (values) => {
 
+        const response = await LoginUser(values);
+        if (response.data.success) {
+            message.success("Successfully LoggedIn!");
+        } else {
+            message.error(response.data.message);
+        }
     }
     const onFinishFailed = (errorInfo) => {
-
+        console.log(errorInfo);
     }
     return (
         <>
@@ -51,19 +57,20 @@ const Login = () => {
                             rules={[{ required: true, message: "Password Required" }]}
                         >
                             <Input
-                                type='password'
+                                type='text'
                                 id='password'
                             />
                         </Form.Item>
                         <Form.Item name="remember" valuePropName="checked" label={null}>
                             <Checkbox>Remember me</Checkbox>
                         </Form.Item>
+                        <Form.Item label={null}>
+                            <Button type="primary" htmlType="submit">
+                                Login
+                            </Button>
+                        </Form.Item>
                     </Form>
-                    <Form.Item label={null}>
-                        <Button type="primary" htmlType="submit">
-                            Login
-                        </Button>
-                    </Form.Item>
+
                     <Typography.Paragraph>New User ? Click here to <Link to="/register"> Register </Link> </Typography.Paragraph>
                 </Card>
             </Flex>

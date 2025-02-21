@@ -15,3 +15,25 @@ export async function RegisterUser(data) {
     }
 
 }
+
+
+export async function LoginUser(data) {
+
+    try {
+        const response = await axiosInstance.post('http://localhost:8080/login', {
+            email: data.email,
+            password: data.password
+        });
+        //console.log("rR", response);
+        return response;
+    } catch (error) {
+
+        // Ensure `error.response` exists before returning it
+        if (error.response) {
+            return error.response;
+        } else {
+            return { data: { success: false, message: "Something went wrong, please try again!" } };
+        }
+    }
+
+}
