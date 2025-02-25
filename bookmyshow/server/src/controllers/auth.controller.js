@@ -23,9 +23,9 @@ const onLogin = async (req, res) => {
         if (!isPasswordValid) {
             return res.send({ success: false, message: "Sorry! Invalid Password Entered." })
         }
-        console.log(user._id);
-        const token = jwt.sign({ userId: user._id }, process.env.SERCRET_KEY);
-        console.log(token);
+
+        const token = jwt.sign({ userId: user._id }, process.env.SECRET_KEY);
+
         return res.status(200).send({ success: true, message: "Login Successful", access_token: token });
 
     } catch (error) {
