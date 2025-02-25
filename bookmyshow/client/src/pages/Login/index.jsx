@@ -7,6 +7,7 @@ const Login = () => {
         const response = await LoginUser(values);
         if (response.data.success) {
             message.success("Successfully LoggedIn!");
+            localStorage.setItem('access_token', response.data.access_token);
         } else {
             message.error(response.data.message);
         }

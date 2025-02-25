@@ -4,16 +4,21 @@ const cors = require('cors')
 const envSetup = require('dotenv');
 const connectDB = require('./config/db');
 const mongoose = require('mongoose');
-const authRoutes = require('./src/routes/auth.routes');
+const authRouter = require('./src/routes/auth.routes');
+const movieRouter = require('./src/routes/movie.routes');
 
 envSetup.config();
 
 connectDB();
 
-app.use(cors())
+app.use(cors());
+
 app.use(express.json());
 
-authRoutes(app);
+app.use('/api/users', authRouter);
+
+app.use('/api/movies', movieRouter);
+
 
 app.listen(process.env.PORT || 8080, () => {
     console.log(`Server is running on port 8080`);

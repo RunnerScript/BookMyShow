@@ -3,7 +3,7 @@ import axiosInstance from ".";
 export async function RegisterUser(data) {
     try {
         //console.log("Data before sending:", JSON.stringify(data));
-        const response = await axiosInstance.post('http://localhost:8080/register', {
+        const response = await axiosInstance.post('http://localhost:8080/api/users/register', {
             name: data.name,
             email: data.email,
             password: data.password
@@ -20,7 +20,7 @@ export async function RegisterUser(data) {
 export async function LoginUser(data) {
 
     try {
-        const response = await axiosInstance.post('http://localhost:8080/login', {
+        const response = await axiosInstance.post('http://localhost:8080/api/users/login', {
             email: data.email,
             password: data.password
         });

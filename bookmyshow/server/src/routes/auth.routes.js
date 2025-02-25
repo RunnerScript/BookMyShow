@@ -1,6 +1,9 @@
 const { onLogin, onRegister, OnRegister } = require("../controllers/auth.controller");
 
-module.exports = (app) => {
-    app.post('/register', onRegister);
-    app.post('/login', onLogin);
-}
+const express = require('express');
+const authRouter = express.Router();
+
+authRouter.post('/register', onRegister);
+authRouter.post('/login', onLogin);
+
+module.exports = authRouter;
