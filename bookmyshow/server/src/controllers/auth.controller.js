@@ -37,7 +37,10 @@ const onLogin = async (req, res) => {
 const onRegister = async (req, res) => {
 
     const { name, email, password } = req.body;
-
+    let { role } = req.body;
+    if (!role) {
+        role = 'user';
+    }
     if (!name || !email || !password) {
         return res.status(400).send({ message: "Incompleted Data" });
     }
@@ -51,7 +54,7 @@ const onRegister = async (req, res) => {
 
         const salt = bcrypt.genSaltSync(10);
         const hashedPassword = bcrypt.hashSync(password, salt);
-        const newUser = new User({ name, email, password: hashedPassword });
+        const newUser = new User({ name, email, password: hashedPassword, role: role });
         await newUser.save();
         res.status(201).send({ success: true, message: "Registration Successful, Please login." });
 
