@@ -20,6 +20,13 @@ const getAllShows = async (req, res) => {
     }
 }
 
+
+const getTheatreAndShowsByMovieId = (req, res) => {
+    console.log(req.query);
+    console.log(req.params);
+    res.status(200).send("All Movies")
+}
+
 const createNewShow = async (req, res) => {
     const { theatre, movie } = req.body;
     try {
@@ -57,4 +64,4 @@ const createNewShow = async (req, res) => {
     }
 }
 
-module.exports = { getAllShows, createNewShow };
+module.exports = { getAllShows, createNewShow, getTheatreAndShowsByMovieId };

@@ -11,6 +11,20 @@ const getAllMovies = async (req, res) => {
 
 }
 
+const getMovieById = async (req, res) => {
+    try {
+        const { id: movieId } = req.params;
+        const movie = await MovieModel.findById(movieId);
+        return res.status(200).send({
+            success: true,
+            message: "Fetched Single Movie",
+            data: movie
+        });
+    } catch (error) {
+        return res.status(500).send({ success: false, message: "Internal Server Error" });
+    }
+}
+
 //only admin user authorize to create new Movie
 const createNewMovie = async (req, res) => {
     try {
@@ -95,4 +109,4 @@ const deleteMovieById = async (req, res) => {
     }
 }
 
-module.exports = { getAllMovies, createNewMovie, updateMovieById, deleteMovieById }
+module.exports = { getAllMovies, createNewMovie, updateMovieById, deleteMovieById, getMovieById }
