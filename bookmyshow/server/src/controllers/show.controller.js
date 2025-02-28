@@ -21,10 +21,49 @@ const getAllShows = async (req, res) => {
 }
 
 
-const getTheatreAndShowsByMovieId = (req, res) => {
-    console.log(req.query);
-    console.log(req.params);
-    res.status(200).send("All Movies")
+const getTheatreAndShowsByMovieId = async (req, res) => {
+    const { movieId } = req.params;
+    const { date } = req.query;
+
+    //list of unique theatres and shows for this movie
+
+    let allShows = await ShowModel.find({ movie: movieId, date: date }).populate('theatre');
+
+    //get all unique theatres 
+    try {
+
+        let allUniqueTheatres = {}
+
+        allShows.forEach((show) => {
+            if (!allUniqueTheatres.hasOwnProperty(show.theatre._id)) {
+                allUniqueTheatres[show.theatre._id] = {
+                    theatreId: show.theatre._id,
+                    theatreDetails: show.theatre,
+                    allShowsPerticularTheatre: [show]
+                }
+            } else {
+                allUniqueTheatres[show.theatre._id].allShowsPerticularTheatre.push(show);
+            }
+        });
+
+        let uniqueTheatres = [];
+        for (key in allUniqueTheatres) {
+            uniqueTheatres.push(allUniqueTheatres[key]);
+        }
+
+        return res.status(200).send({
+            success: true,
+            message: "All shows fetched for the given movie",
+            data: uniqueTheatres
+        });
+
+    } catch (error) {
+        return res.status(500).send({
+            success: false,
+            message: "Internal server error",
+            error
+        });
+    }
 }
 
 const createNewShow = async (req, res) => {
