@@ -103,4 +103,10 @@ const createNewShow = async (req, res) => {
     }
 }
 
-module.exports = { getAllShows, createNewShow, getTheatreAndShowsByMovieId };
+
+const getShowById = async (req, res) => {
+    const { id } = req.body;
+
+}
+
+module.exports = { getAllShows, createNewShow, getTheatreAndShowsByMovieId, getShowById };

@@ -37,3 +37,18 @@ export async function LoginUser(data) {
     }
 
 }
+
+export async function GetCurrentUser() {
+    try {
+        const response = await axiosInstance.get('http://localhost:8080/api/users/currentuser');
+        return response;
+    } catch (error) {
+        // Ensure `error.response` exists before returning it
+        if (error.response) {
+            return error.response;
+        } else {
+            return { data: { success: false, message: "Something went wrong, please try again!" } };
+        }
+    }
+
+}

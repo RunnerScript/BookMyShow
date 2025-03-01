@@ -2,7 +2,6 @@ import { Col, Flex, Input, Row } from "antd";
 import { useEffect, useState } from "react";
 import { Navigate, useNavigate, useParams } from "react-router-dom";
 import { getMovieById } from "../../api/movies";
-import Navbar from "../../components/Navbar";
 import moment from 'moment';
 import { getAllShowsByMovie } from "../../api/shows";
 
@@ -44,7 +43,6 @@ const SingleMoviePage = () => {
 
     return (
         <>
-            <Navbar />
             {movie && (
                 <Flex
                     justify='center'

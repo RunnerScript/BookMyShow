@@ -5,20 +5,27 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import SingleMoviePage from './pages/SingleMoviePage';
 import BookShow from './pages/BookShow';
-
+import store from './redux/store';
+import { Provider } from 'react-redux';
+import ProtectedRoute from './components/ProtectedRoutes';
+import MovieList from './pages/Admin/MovieList';
 function App() {
   return (
+    <Provider store={store}>
+      <BrowserRouter>
 
-    <BrowserRouter>
-      <Routes>
-        <Route path='' element={<Home />} />
-        <Route path='login/' element={<Login />} />
-        <Route path='register/' element={<Register />} />
-        <Route path='movie/:id' element={<SingleMoviePage />} />
-        <Route path='movie/:id/book-show/:showId' element={<BookShow />} />
-        <Route path="*" element={<><h1>No Page Found</h1></>} />
-      </Routes>
-    </BrowserRouter>
+        <Routes>
+          <Route path='' element={<ProtectedRoute><Home /></ProtectedRoute>} />
+          <Route path='login/' element={<Login />} />
+          <Route path='register/' element={<Register />} />
+          <Route path='admin/' element={<ProtectedRoute><MovieList /></ProtectedRoute>} />
+          <Route path='movie/:id' element={<SingleMoviePage />} />
+          <Route path='movie/:movieId/book-show/:showId' element={<BookShow />} />
+          <Route path="*" element={<><h1>No Page Found</h1></>} />
+        </Routes>
+      </BrowserRouter>
+
+    </Provider>
   );
 }
 

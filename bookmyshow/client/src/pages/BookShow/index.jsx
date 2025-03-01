@@ -1,7 +1,7 @@
 import { useParams } from 'react-router-dom';
 const BookShow = () => {
-    const params = useParams();
-    console.log(params);
+    const { movieId, showId } = useParams();
+    console.log(movieId, showId);
     return <h1>Gello thai gayo</h1>
 }
 

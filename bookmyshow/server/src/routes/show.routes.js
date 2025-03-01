@@ -4,7 +4,9 @@ const { verifyToken, verifyAdminOrPartner } = require('../middlewares/auth.middl
 const showRouter = express.Router();
 
 showRouter.get('/', [verifyToken], getAllShows);
-showRouter.post('/', [verifyToken, verifyAdminOrPartner], createNewShow);
 showRouter.get('/movies/:movieId/', [verifyToken], getTheatreAndShowsByMovieId);
+//showRouter.get('/:id', [verifyToken], getShowById);
+
+showRouter.post('/', [verifyToken, verifyAdminOrPartner], createNewShow);
 
 module.exports = showRouter;

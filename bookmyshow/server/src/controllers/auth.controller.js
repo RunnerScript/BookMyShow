@@ -63,4 +63,22 @@ const onRegister = async (req, res) => {
     }
 
 }
-module.exports = { onLogin, onRegister };
+
+const getCurrentUser = async (req, res) => {
+    try {
+        return res.status(200).send({
+            success: true,
+            message: "Fetched Current User",
+            data: req.userDetails || null
+        });
+
+
+    } catch (error) {
+        return res.status(500).send({
+            success: false,
+            message: "Internal server error",
+            error
+        });
+    }
+}
+module.exports = { onLogin, onRegister, getCurrentUser };

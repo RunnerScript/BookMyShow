@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import { getAllMovies } from "../../api/movies";
 import MovieList from "../../components/MovieList";
-import Navbar from "../../components/Navbar";
 import moment from "moment";
 
 const Home = () => {
@@ -24,7 +23,6 @@ const Home = () => {
         setSearchText(e.target.value);
     }
     return (<>
-        <Navbar />
         <Row className="d-flex w-100" style={{
             marginTop: '5px',
             justifyContent: 'center'

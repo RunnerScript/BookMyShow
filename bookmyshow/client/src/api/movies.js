@@ -5,7 +5,7 @@ export async function getAllMovies() {
     try {
         const response = await axiosInstance.get('http://localhost:8080/api/movies');
         // console.log("API Response", response);
-        return response;
+        return response.data;
     } catch (error) {
         return error.response;
     }
