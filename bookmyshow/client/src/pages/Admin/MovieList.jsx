@@ -68,7 +68,7 @@ const MovieList = () => {
                             dispatch(openModal({ movie: data, formType: "edit" }));
                         }} > <EditOutlined /></Button>
                         <Button className="btn-tables" onClick={() => {
-                            dispatch(dispatch(openModal({ movie: data, formType: "delete" })));
+                            dispatch(dispatch(openDeleteModal({ movie: data, formType: "delete" })));
                         }}><DeleteOutlined /> </Button>
                     </div>
                 )

@@ -1,10 +1,27 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { getAlltheatre } from "../api/theatres";
-import { fetchMovies } from "./movieSlice";
+import { createTheatre, getAlltheatre, updateTheatreById, deleteTheatreById } from "../api/theatres";
+
 
 export const fetchTheatres = createAsyncThunk('fetch/theatre', async (theatre, { dispatch }) => {
     const response = await getAlltheatre();
-    console.log(response.data);
+    return response.data;
+});
+
+export const updateTheatre = createAsyncThunk('update/theatre', async (theatre, { dispatch }) => {
+    const response = await updateTheatreById(theatre.id, theatre.payload);
+    dispatch(fetchTheatres());
+    return response.data;
+});
+
+export const addTheatre = createAsyncThunk('add/theatre', async (theatre, { dispatch }) => {
+    const response = await createTheatre(theatre);
+    dispatch(fetchTheatres());
+    return response.data;
+});
+
+export const deleteTheatre = createAsyncThunk('delete/theatre', async (theatreId, { dispatch }) => {
+    const response = await deleteTheatreById(theatreId);
+    dispatch(fetchTheatres());
     return response.data;
 });
 
@@ -15,27 +32,29 @@ const theatreSlice = createSlice({
         list: [],
         selectedTheatre: null,
         formType: 'add',
-        isModelOpen: false,
-        isDeleteModelOpen: false,
+        isModalOpen: false,
+        isDeleteModalOpen: false,
         status: 'idle',
         error: null
     },
     reducers: {
-        openModel: (state, action) => {
-            state.isModelOpen = true;
+        openModal: (state, action) => {
+            console.log(action.payload);
+            state.isModalOpen = true;
             state.formType = action.payload.formType || null;
-            state.selectedTheatre = action.payload.movie || null
+            state.selectedTheatre = action.payload.theatre || null
         },
-        closeModel: (state) => {
-            state.isModelOpen = false;
+        closeModal: (state) => {
+            state.isModalOpen = false;
             state.selectedTheatre = null;
         },
-        openDeleteModel: (state, action) => {
-            state.isDeleteModelOpen = true;
-            state.selectedTheatre = action.payload;
+        openDeleteModal: (state, action) => {
+            state.isDeleteModalOpen = true;
+            state.formType = action.payload.formType;
+            state.selectedTheatre = action.payload.theatre;
         },
-        closeDeleteModel: (state) => {
-            state.isDeleteModelOpen = false;
+        closeDeleteModal: (state) => {
+            state.isDeleteModalOpen = false;
             state.selectedTheatre = null;
         }
     },
@@ -48,12 +67,12 @@ const theatreSlice = createSlice({
                 state.status = 'succeeded';
                 state.list = action.payload;
             })
-            .addCase(fetchMovies.rejected, (state, action) => {
+            .addCase(fetchTheatres.rejected, (state, action) => {
                 state.status = 'failed';
                 state.error = action.payload;
             });
     }
 });
 
-export const { openModel, openDeleteModel, closeModel, closeDeleteModel } = theatreSlice.actions;
+export const { openModal, openDeleteModal, closeModal, closeDeleteModal } = theatreSlice.actions;
 export default theatreSlice.reducer;

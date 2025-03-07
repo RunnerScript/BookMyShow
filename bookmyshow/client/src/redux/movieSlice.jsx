@@ -11,22 +11,21 @@ export const fetchMovies = createAsyncThunk('movies/fetchMovies', async () => {
 // Add Movie Api Call
 export const addMovie = createAsyncThunk('movies/add', async (newMovie, { dispatch }) => {
     const response = await createMovie(newMovie);
-    useMovies(dispatch);
+    dispatch(fetchMovies());
     return response.data;
 });
 
 //Update Movie 
-export const updateMovie = createAsyncThunk('movies/update', async (data, { dispatch }) => {
-
-    const response = await updateMovieById(data.id, data.payload);
-    useMovies(dispatch);
+export const updateMovie = createAsyncThunk('movies/update', async (movie, { dispatch }) => {
+    const response = await updateMovieById(movie.id, movie.payload);
+    dispatch(fetchMovies());
     return response.data;
 });
 
 //Delete Movie
 export const deleteMovie = createAsyncThunk('delete/movie', async (movieId, { dispatch }) => {
     const response = await deleteMovie(movieId);
-    useMovies(dispatch);
+    dispatch(fetchMovies());
     return response.data;
 })
 

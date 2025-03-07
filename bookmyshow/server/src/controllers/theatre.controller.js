@@ -63,7 +63,7 @@ const updateTheatreById = async (req, res) => {
         }
 
         const updateTheatre = await TheatreModel.findByIdAndUpdate(theatreId, req.body);
-        if (updateMovie !== null) {
+        if (updateTheatre !== null) {
             return res.status(200).send({
                 success: true,
                 message: "Updated Successfully",
@@ -72,6 +72,7 @@ const updateTheatreById = async (req, res) => {
         }
 
     } catch (error) {
+        console.log(error);
         res.status(500).send({
             success: false,
             message: "Internal Server Error",
@@ -109,6 +110,7 @@ const deleteTheatreById = async (req, res) => {
             });
         }
     } catch (error) {
+        console.log(error);
         return res.status(500).send({
             success: false,
             message: "Internal Server Error"

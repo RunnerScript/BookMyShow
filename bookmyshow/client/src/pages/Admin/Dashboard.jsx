@@ -1,6 +1,7 @@
 import React from 'react';
 import { Tabs } from 'antd';
-import MovieList from '../Admin/MovieList';
+import MovieList from './MovieList';
+import TheatreList from './TheatreList';
 const onChange = (key) => {
     console.log(key);
 };
@@ -13,7 +14,7 @@ const items = [
     {
         key: '2',
         label: 'Theatre',
-        children: <h1>Theatre Data</h1>,
+        children: <TheatreList />,
     },
 
 ];

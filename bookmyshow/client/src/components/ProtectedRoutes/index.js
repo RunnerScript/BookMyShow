@@ -11,24 +11,19 @@ import { fetchTheatres } from "../../redux/theatreSlice";
 
 const ProtectedRoute = ({ children }) => {
     const { user } = useSelector(store => store.users);
+
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
     //Movies List Fetch 
     useEffect(() => {
-        dispatch(showLoading());
-        dispatch(fetchMovies()).finally(() => {
-            dispatch(hideLoading());
-        });
+        dispatch(fetchMovies());
     }, [dispatch]);
 
 
     //Theatre List fetched
     useEffect(() => {
-        dispatch(showLoading());
-        dispatch(fetchTheatres()).finally(() => {
-            dispatch(hideLoading());
-        });
+        dispatch(fetchTheatres());
     }, [dispatch]);
 
     //Get Current User
@@ -36,10 +31,8 @@ const ProtectedRoute = ({ children }) => {
         try {
             dispatch(showLoading());
             const response = await GetCurrentUser();
-            console.log(response);
             dispatch(SetUser(response.data.data));
         } catch (error) {
-            console.log("error", error);
             message.error("Please login again");
             dispatch(hideLoading());
             dispatch(SetUser(null))
@@ -104,6 +97,7 @@ const ProtectedRoute = ({ children }) => {
                         <h1 className="text-white m-0">Book My Show</h1>
                         <Menu theme="dark" mode="horizental" className="main-nav" items={navItems} />
                     </Header>
+                    { }
                     <div className="pading-3 min-height-300 bg-white">{children}</div>
                 </Layout>
             </>

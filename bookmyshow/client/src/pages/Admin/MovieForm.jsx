@@ -17,21 +17,19 @@ const MovieForm = () => {
     const onFinishUpdate = async (values) => {
         const response = await dispatch(updateMovie({ id: selectedMovie._id, payload: values })).unwrap();
         if (response.success) {
-            message.success("Successfully Updated.");
             dispatch(closeModal());
         }
         else {
-            message.error(response.data.error);
+            console.log(response);
         }
     }
 
     const onFinishCreate = async (values) => {
         const response = await dispatch(addMovie(values)).unwrap();
         if (response.success) {
-            message.success("Movie Successfully Added");
             dispatch(closeModal());
         } else {
-            message.error(response.data.error);
+            console.log(response);
         }
 
     }
