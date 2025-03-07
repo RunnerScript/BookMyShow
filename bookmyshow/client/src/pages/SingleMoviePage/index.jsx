@@ -4,18 +4,24 @@ import { Navigate, useNavigate, useParams } from "react-router-dom";
 import { getMovieById } from "../../api/movies";
 import moment from 'moment';
 import { getAllShowsByMovie } from "../../api/shows";
+import { useSelector } from "react-redux";
 
 const SingleMoviePage = () => {
     const params = useParams();
-    const [movie, setMovie] = useState(null);
+    //const [movie, setMovie] = useState(null);
     const [date, setDate] = useState(moment().format('YYYY-MM-DD'));
     const [showsData, setShowsData] = useState([]);
-
+    const movie = useSelector((store) => {
+        console.log(store.movies, params.id);
+        const currentMovie = store.movies.list.filter((mv) => mv._id === params.id);
+        console.log(currentMovie);
+        return currentMovie[0];
+    });
     const navigate = useNavigate();
 
     const getData = async () => {
         const response = await getMovieById(params.id);
-        setMovie(response.data.data);
+        //setMovie(response.data.data);
     }
 
     const getAllShowsForSelectedMovie = async () => {
@@ -31,7 +37,7 @@ const SingleMoviePage = () => {
 
     console.log(showsData);
     useEffect(() => {
-        getData();
+        //getData();
     }, []);
 
 

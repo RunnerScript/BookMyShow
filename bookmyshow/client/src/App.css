@@ -6,6 +6,10 @@
   cursor: pointer;
 }
 
+.z-1 {
+  z-index: 1;
+}
+
 .d-flex {
   display: flex;
 }
@@ -14,8 +18,39 @@
   justify-content: space-between;
 }
 
+.justify-content-end {
+  justify-content: end;
+}
+
+.flex-col {
+  flex-direction: column;
+}
+
+.m-2 {
+  margin: 2rem;
+}
+
+.m-0 {
+  margin: 0;
+}
+
+.my-2 {
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}
+
+
+.mx-2 {
+  margin-left: 2rem;
+  margin-right: 2rem;
+}
+
 .align-content-center {
   align-items: center;
+}
+
+.align-end {
+  align-items: end;
 }
 
 .sticky {
@@ -28,6 +63,10 @@
 
 .top-0 {
   top: 0;
+}
+
+.h-40 {
+  height: 40px;
 }
 
 
@@ -46,6 +85,10 @@
 
 .min-height-300 {
   min-height: 300px;
+}
+
+.max-width-100 {
+  max-width: 100px;
 }
 
 .bg-white {
@@ -94,4 +137,9 @@
 
 .align-center {
   align-items: center;
+}
+
+.btn-tables {
+  display: block;
+  width: 50px;
 }

@@ -1,10 +1,34 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { getAllMovies } from "../api/movies";
+import { createMovie, getAllMovies, updateMovieById } from "../api/movies";
+import { useMovies } from "../hooks/useMovies";
 
+//Fetch Movies Call
 export const fetchMovies = createAsyncThunk('movies/fetchMovies', async () => {
     const response = await getAllMovies();
     return response.data;
 });
+
+// Add Movie Api Call
+export const addMovie = createAsyncThunk('movies/add', async (newMovie, { dispatch }) => {
+    const response = await createMovie(newMovie);
+    useMovies(dispatch);
+    return response.data;
+});
+
+//Update Movie 
+export const updateMovie = createAsyncThunk('movies/update', async (data, { dispatch }) => {
+
+    const response = await updateMovieById(data.id, data.payload);
+    useMovies(dispatch);
+    return response.data;
+});
+
+//Delete Movie
+export const deleteMovie = createAsyncThunk('delete/movie', async (movieId, { dispatch }) => {
+    const response = await deleteMovie(movieId);
+    useMovies(dispatch);
+    return response.data;
+})
 
 const movieSlice = createSlice({
     name: 'movies',
@@ -23,6 +47,12 @@ const movieSlice = createSlice({
             state.selectedMovie = action.payload.movie || null;
             state.formType = action.payload.formType || null;
         },
+        dateFormat: (state, action) => {
+            if (state.selectedMovie) {
+                //console.log("Selected Movie", state.selectedMovie.releaseDate, action);
+                state.selectedMovie.releaseDate = action.payload
+            }
+        },
         closeModal: (state, action) => {
             state.isModalOpen = false;
             state.selectedMovie = null;
@@ -37,6 +67,7 @@ const movieSlice = createSlice({
         }
     },
     extraReducers: (builder) => {
+        //Fetch Movies Cases
         builder
             .addCase(fetchMovies.pending, (state) => {
                 state.status = "loading";
@@ -49,8 +80,46 @@ const movieSlice = createSlice({
                 state.status = 'failed';
                 state.error = action.error.message;
             });
+
+        // //Add Movie Cases
+        // builder
+        //     .addCase(addMovie.pending, (state) => {
+        //         state.status = "loading";
+        //     })
+        //     .addCase(addMovie.fulfilled, (state, action) => {
+        //         state.status = "succeeded";
+        //     })
+        //     .addCase(addMovie.rejected, (state, action) => {
+        //         state.status = 'failed';
+        //         state.error = action.error.message;
+        //     });
+
+        // //Update Movie
+        // builder
+        //     .addCase(updateMovie.pending, (state) => {
+        //         state.status = "loading";
+        //     })
+        //     .addCase(updateMovie.fulfilled, (state, action) => {
+        //         state.status = "succeeded";
+        //     })
+        //     .addCase(updateMovie.rejected, (state, action) => {
+        //         state.status = 'failed';
+        //     });
+
+        // //delete Movie
+        // builder
+        //     .addCase(deleteMovie.pending, (state) => {
+        //         state.status = "loading";
+        //     })
+        //     .addCase(deleteMovie.fulfilled, (state, action) => {
+        //         state.status = "succeeded";
+        //     })
+        //     .addCase(deleteMovie.rejected, (state, action) => {
+        //         state.status = 'failed';
+        //     });
+
     }
 });
 
-export const { openModal, closeModal, openDeleteModal, closeDeleteModal } = movieSlice.actions;
+export const { openModal, dateFormat, closeModal, openDeleteModal, closeDeleteModal } = movieSlice.actions;
 export default movieSlice.reducer;

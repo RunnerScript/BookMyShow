@@ -4,20 +4,12 @@ import { useNavigate } from 'react-router-dom';
 import { getAllMovies } from "../../api/movies";
 import MovieList from "../../components/MovieList";
 import moment from "moment";
+import { useSelector } from "react-redux";
 
 const Home = () => {
-    const [movies, setMovies] = useState(null);
     const [searchText, setSearchText] = useState('');
     const navigate = useNavigate();
-
-    useEffect(() => {
-        const getMovies = async () => {
-            const response = await getAllMovies();
-            setMovies(response.data.data);
-        }
-        getMovies();
-
-    }, []);
+    const { list: movies } = useSelector((store) => store.movies);
 
     const onSearchTextChange = (e) => {
         setSearchText(e.target.value);

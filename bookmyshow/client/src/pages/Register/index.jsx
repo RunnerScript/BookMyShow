@@ -1,19 +1,22 @@
-import { Form, Button, Typography, Flex, Card, Input, message } from "antd";
+import { Form, Button, Typography, Flex, Card, Input, message, Radio } from "antd";
+import { useNavigate } from "react-router-dom";
 import { RegisterUser } from "../../api/users";
 
 const Register = () => {
+    const navigate = useNavigate();
     const onFinish = async (values) => {
         const response = await RegisterUser(values);
         console.log(response);
         if (response.data.success) {
             message.success("You are registered successfully!, Login to continue");
+            navigate('/login');
         } else {
             message.error(response.data.message);
         }
 
     }
     const onFinishFailed = (errorInfo) => {
-
+        message.error(errorInfo);
     }
     return (
         <Flex
@@ -68,11 +71,25 @@ const Register = () => {
                         />
 
                     </Form.Item>
+                    <Form.Item
+                        label='Register as a Partner'
+                        htmlFor="role"
+                        name='role'
+                        initialState={false}
+                        rules={[{ required: true, message: "Please select an Option" }]}
+                    >
+                        <Radio.Group name="radiogroup">
+                            <Radio value={"partner"}>Yes</Radio>
+                            <Radio value={"user"}>No</Radio>
+
+                        </Radio.Group>
+                    </Form.Item>
                     <Form.Item label={null}>
                         <Button type="primary" htmlType="submit">
                             Register
                         </Button>
                     </Form.Item>
+
 
                 </Form>
             </Card>
