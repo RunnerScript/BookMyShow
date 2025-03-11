@@ -62,11 +62,11 @@ const updateTheatreById = async (req, res) => {
             });
         }
 
-        const updateTheatre = await TheatreModel.findByIdAndUpdate(theatreId, req.body);
+        const updateTheatre = await TheatreModel.findByIdAndUpdate(theatreId, req.body, { new: true });
         if (updateTheatre !== null) {
             return res.status(200).send({
                 success: true,
-                message: "Updated Successfully",
+                message: "Theatre Updated Successfully",
                 data: updateTheatre
             });
         }
@@ -106,7 +106,7 @@ const deleteTheatreById = async (req, res) => {
         if (deletedTheatre !== null) {
             return res.status(200).send({
                 success: true,
-                message: "Movie Successfully Deleted"
+                message: "Theatre Successfully Deleted"
             });
         }
     } catch (error) {

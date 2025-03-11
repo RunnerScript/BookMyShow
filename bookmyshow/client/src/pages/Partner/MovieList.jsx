@@ -7,8 +7,8 @@ import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import moment from 'moment';
 import { openModal, openDeleteModal, closeModal, closeDeleteModal } from "../../redux/movieSlice";
 import { hideLoading, showLoading } from "../../redux/loaderSlice";
-import { render } from "@testing-library/react";
-import { useMovies } from "../../hooks/useMovies";
+//import { render } from "@testing-library/react";
+//import { useMovies } from "../../hooks/useMovies";
 
 const MovieList = () => {
     //Fetching the Movie States

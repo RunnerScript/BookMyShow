@@ -141,5 +141,11 @@
 
 .btn-tables {
   display: block;
-  width: 50px;
+}
+
+.card img {
+  max-width: 250px;
+  min-width: 250px;
+  border-radius: 10px;
+  min-height: 250px;
 }

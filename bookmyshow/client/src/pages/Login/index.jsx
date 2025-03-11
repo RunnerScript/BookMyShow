@@ -1,13 +1,15 @@
 import { Form, Input, Checkbox, Button, Flex, Card, Typography, message } from "antd";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { LoginUser } from "../../api/users";
 const Login = () => {
+    const navigate = useNavigate();
     const onFinish = async (values) => {
 
         const response = await LoginUser(values);
         if (response.data.success) {
             message.success("Successfully LoggedIn!");
             localStorage.setItem('access_token', response.data.access_token);
+            navigate('/');
         } else {
             message.error(response.data.message);
         }

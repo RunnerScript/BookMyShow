@@ -1,4 +1,4 @@
-const Partner = () => {
-    return <h1>Partner Page</h1>
+const Admin = () => {
+    return <h1>Admin Page</h1>
 }
-export default Partner;
+export default Admin;

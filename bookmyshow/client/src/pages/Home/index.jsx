@@ -14,43 +14,30 @@ const Home = () => {
     const onSearchTextChange = (e) => {
         setSearchText(e.target.value);
     }
+
+
     return (<>
-        <Row className="d-flex w-100" style={{
-            marginTop: '5px',
-            justifyContent: 'center'
-        }}>
-            <Col lg={{ span: 12 }} xs={{ span: 24 }}>
+        <Row className='d-flex justify-center' gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}>
+            <Col span={16} className='my-2'>
                 <Input placeholder="Type here to search for movies" onChange={(e) => onSearchTextChange(e)} />
             </Col>
         </Row>
 
-        <Flex
-            justify='center'
-            align='center'
-            gap='large'
-            wrap
-            style={{
-                marginTop: '2rem',
-                padding: '20px'
-            }}
-        >
+        <Row className='d-flex justify-center' gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}>
             {
                 movies && movies.filter((movie) => movie.movieName.toLowerCase().includes(searchText.toLocaleLowerCase())).map((movie) => {
                     return (
-                        <div
-
-                            className='mb-5'
+                        <Col
+                            className="card"
                             span={{
-                                lg: 10,
+                                sm: 24,
+                                md: 12,
                                 xs: 24,
-                                md: 12
+                                lg: 8
                             }}
                         >
                             <div className="text-center">
-                                <img src={movie.poster} width={250}
-                                    style={{
-                                        borderRadius: '10px'
-                                    }}
+                                <img src={movie.poster}
                                 />
                                 <h3
                                     onClick={() => {
@@ -59,14 +46,14 @@ const Home = () => {
                                     className='cursor-pointer'
                                 >{movie.movieName}</h3>
                             </div>
-                        </div>
+                        </Col>
                     );
                 })
 
             }
 
 
-        </Flex>
+        </Row>
     </>)
 }
 export default Home;

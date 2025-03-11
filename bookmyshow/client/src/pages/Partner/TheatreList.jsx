@@ -6,6 +6,7 @@ import { openModal, openDeleteModal, closeModal, closeDeleteModal, updateTheatre
 import TheatreForm from "./TheatreForm";
 import DeleteMovieModal from "./DeleteMovieModal";
 import DeleteTheatreModal from "./DeleteTheatreModal";
+import { useNavigate } from "react-router-dom";
 
 
 const TheatreList = () => {
@@ -18,7 +19,10 @@ const TheatreList = () => {
         status,
         error
     } = useSelector((store) => store.theatres);
+
     const dispatch = useDispatch();
+    const navigate = useNavigate();
+
 
     const theatresData = useMemo(() => {
         return theatres.map((item) => {
@@ -26,17 +30,6 @@ const TheatreList = () => {
         })
     }, [theatres]);
 
-    const handleStatusChange = async (theatre) => {
-        console.log(theatre);
-        const updatedTheatre = { ...theatre, isActive: !theatre.isActive };
-        const payload = { id: theatre._id, payload: updatedTheatre };
-        const response = await dispatch(updateTheatre(payload)).unwrap();
-        if (response.success) {
-            message.success(response.message);
-        } else {
-            message.error(response.message);
-        }
-    }
 
     const tableHeadings = [
         { title: 'Theatre Name', dataIndex: 'name' },
@@ -45,12 +38,7 @@ const TheatreList = () => {
         { title: 'Email', dataIndex: 'email' },
         {
             title: 'Status', dataIndex: 'isActive', render: (status, data) => {
-
-                return (
-                    <Button className="btn-tables" onClick={() => handleStatusChange(data)}>
-                        {data.isActive ? "Approved" : "Pending/Block"}
-                    </Button>
-                )
+                return data.isActive ? "Approved" : "Pending/Block";
             }
         },
         {
@@ -65,8 +53,8 @@ const TheatreList = () => {
                         <Button className="btn-tables" onClick={() => {
                             dispatch(openDeleteModal({ theatre: data, formType: "delete" }));
                         }}><DeleteOutlined /> </Button>
-                        <Button className="btn-tables" onClick={() => {
-
+                        <Button className="btn-tables" onClick={async () => {
+                            navigate(`/shows/${data.name}___${data._id}`);
                         }}>Shows</Button>
                     </div>
                 )

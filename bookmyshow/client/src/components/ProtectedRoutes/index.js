@@ -1,4 +1,4 @@
-import { message, Layout, Menu, } from "antd";
+import { message, Layout, Menu, Row, Col } from "antd";
 import { Link, useNavigate } from "react-router-dom";
 import { GetCurrentUser } from "../../api/users";
 import { hideLoading, showLoading } from "../../redux/loaderSlice";
@@ -8,13 +8,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { HomeOutlined, ProfileOutlined, UserOutlined, LoginOutlined } from "@ant-design/icons";
 import { fetchMovies } from "../../redux/movieSlice";
 import { fetchTheatres } from "../../redux/theatreSlice";
+import { fetchShowsByTheatre } from "../../redux/showSlice";
 
 const ProtectedRoute = ({ children }) => {
     const { user } = useSelector(store => store.users);
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
-
     //Movies List Fetch 
     useEffect(() => {
         dispatch(fetchMovies());
@@ -25,6 +25,8 @@ const ProtectedRoute = ({ children }) => {
     useEffect(() => {
         dispatch(fetchTheatres());
     }, [dispatch]);
+
+
 
     //Get Current User
     const getValidUser = async () => {
@@ -70,7 +72,7 @@ const ProtectedRoute = ({ children }) => {
                         navigate('/login');
                     }}>Logout</span>),
                     icon: <LoginOutlined />,
-                    key: 'login'
+                    key: 'logout'
                 }
             ]
         },
@@ -92,12 +94,26 @@ const ProtectedRoute = ({ children }) => {
     return (
         user && (
             <>
-                <Layout>
+                {/* <Layout>
                     <Header className="z-1 d-flex justify-content-between align-content-center sticky w-100 top-0">
                         <h1 className="text-white m-0">Book My Show</h1>
                         <Menu theme="dark" mode="horizental" className="main-nav" items={navItems} />
                     </Header>
-                    { }
+                 
+                    <div className="pading-3 min-height-300 bg-white">{children}</div>
+                </Layout> */}
+                <Layout>
+                    <Header className="z-1  sticky">
+                        <Row className='d-flex justify-center' gutter={{ xs: 10, sm: 10, md: 16, lg: 32 }} >
+                            <Col span={{ xs: 24, sm: 24, md: 16, lg: 16 }}>
+                                <h1 className="text-white m-0">Book My Show</h1>
+                            </Col>
+                            <Col span={{ xs: 24, sm: 24, md: 8, lg: 8 }}>
+                                <Menu theme="dark" mode="horizental" className="main-nav" items={navItems} />
+                            </Col>
+                        </Row>
+                    </Header>
+
                     <div className="pading-3 min-height-300 bg-white">{children}</div>
                 </Layout>
             </>

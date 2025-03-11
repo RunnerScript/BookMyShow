@@ -3,7 +3,6 @@ const ShowModel = require("../models/show.model");
 const TheatreModel = require("../models/theatre.model");
 
 const getAllShows = async (req, res) => {
-
     try {
         const allShows = await ShowModel.find({}).populate('theatre').populate('movie');
         return res.status(200).send({
@@ -15,23 +14,39 @@ const getAllShows = async (req, res) => {
         return res.status(500).send({
             success: false,
             message: "Internal server error",
-            error
+            error: error.message
         });
     }
 }
 
+const getAllShowsByTheatreId = async (req, res) => {
+    const { id: theatreId } = req.params;
+    const { date } = req.query;
+    try {
+        const shows = await ShowModel.find({ theatre: theatreId }).populate('movie');
+        console.log(shows);
+        return res.send({
+            success: true,
+            messsage: "Shows fetched successfully.",
+            data: shows
+        });
+
+    } catch (error) {
+        return res.send({
+            success: true,
+            message: "Internal Server Error",
+            error: error.message
+        });
+    }
+
+}
 
 const getTheatreAndShowsByMovieId = async (req, res) => {
-    const { movieId } = req.params;
-    const { date } = req.query;
-
-    //list of unique theatres and shows for this movie
-
-    let allShows = await ShowModel.find({ movie: movieId, date: date }).populate('theatre');
+    const { movieId, date } = req.params;
 
     //get all unique theatres 
     try {
-
+        let allShows = await ShowModel.find({ movie: movieId, date: date }).populate('theatre');
         let allUniqueTheatres = {}
 
         allShows.forEach((show) => {
@@ -61,7 +76,7 @@ const getTheatreAndShowsByMovieId = async (req, res) => {
         return res.status(500).send({
             success: false,
             message: "Internal server error",
-            error
+            error: error.message
         });
     }
 }
@@ -98,15 +113,108 @@ const createNewShow = async (req, res) => {
         return res.status(500).send({
             success: false,
             message: "Internal Server Error",
-            error
+            error: error.message
         });
     }
 }
 
 
 const getShowById = async (req, res) => {
-    const { id } = req.body;
+    const { id: showId } = req.params;
+    if (!showId) {
+        return res.status(400).send({
+            success: false,
+            message: "show id not passed"
+        });
+    }
+    try {
+        const show = await ShowModel.findById(id).populate("movie").populate('theatre');
+        if (!show) {
+            return res.status(400).send({
+                success: false,
+                message: "Invalid show id",
+            });
+        }
 
+        return res.status(200).send({
+            success: true,
+            message: "Show fetched successfully",
+            data: show
+        });
+    } catch (error) {
+
+    }
 }
 
-module.exports = { getAllShows, createNewShow, getTheatreAndShowsByMovieId, getShowById };
+
+const updateShow = async (req, res) => {
+    const { id: showId } = req.params;
+    if (!showId) {
+        return res.status(400).send({
+            success: false,
+            message: "Show id not passed"
+        });
+    }
+    try {
+        const show = await ShowModel.findById(showId);
+        if (!show) {
+            return res.status(400).send({
+                success: false,
+                message: "Invalid Show ID"
+            });
+        }
+
+        const updatedShow = await ShowModel.findByIdAndUpdate(showId, req.body, { new: true });
+        if (updatedShow !== null) {
+            return res.status(200).send({
+                success: true,
+                message: "Show updated successfully.",
+                data: updatedShow
+            });
+        }
+    } catch (error) {
+        return res.status(500).send({
+            success: false,
+            message: "Internal Server Error",
+            error: error.message
+        });
+    }
+}
+
+
+
+
+const deleteShow = async (req, res) => {
+    const { id: showId } = req.params;
+    if (!id) {
+        return res.status(400).send({
+            success: false,
+            message: "Show id not passed"
+        });
+    }
+    try {
+        const show = await ShowModel.findById(showId);
+        if (!show) {
+            return res.status(400).send({
+                success: false,
+                message: "Invalid Show ID"
+            });
+        }
+
+        const deletedShow = await ShowModel.findByIdAndDelete(showId);
+        if (deletedShow !== null) {
+            return res.status(200).send({
+                success: true,
+                message: "Show deleted successfully.",
+            });
+        }
+    } catch (error) {
+        return res.status(500).send({
+            success: false,
+            message: "Internal Server Error",
+            error: error.message
+        });
+    }
+}
+
+module.exports = { getAllShows, createNewShow, getTheatreAndShowsByMovieId, getShowById, deleteShow, updateShow, getAllShowsByTheatreId };
