@@ -15,7 +15,7 @@ const Home = () => {
         setSearchText(e.target.value);
     }
 
-
+    const moviesData = movies.map(movie => ({ ...movie, key: `movie${movie.id}` }))
     return (<>
         <Row className='d-flex justify-center' gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}>
             <Col span={16} className='my-2'>
@@ -25,7 +25,7 @@ const Home = () => {
 
         <Row className='d-flex justify-center' gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}>
             {
-                movies && movies.filter((movie) => movie.movieName.toLowerCase().includes(searchText.toLocaleLowerCase())).map((movie) => {
+                moviesData && moviesData.filter((movie) => movie.movieName.toLowerCase().includes(searchText.toLocaleLowerCase())).map((movie) => {
                     return (
                         <Col
                             className="card"
@@ -41,7 +41,7 @@ const Home = () => {
                                 />
                                 <h3
                                     onClick={() => {
-                                        navigate(`/movie/${movie._id}?date=${moment().format('YYYY-MM-DD')}`);
+                                        navigate(`/movie/${movie._id}?date=${moment(new Date()).format('YYYY-MM-DD')}`);
                                     }}
                                     className='cursor-pointer'
                                 >{movie.movieName}</h3>

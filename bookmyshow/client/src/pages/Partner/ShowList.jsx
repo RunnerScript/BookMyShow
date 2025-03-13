@@ -22,17 +22,15 @@ const ShowList = () => {
         error } = useSelector((store) => store.shows);
 
     const dispatch = useDispatch();
-
     const { theatre } = useParams();
     const theatreDetails = theatre.split('___');
-
     const theatreName = theatreDetails[0];
     const theatreId = theatreDetails[1];
-
     useEffect(() => {
         dispatch(fetchShowsByTheatre(theatreId));
     }, [dispatch]);
 
+    console.log("Shows", shows);
     //Adding keys to Shows
     const showsData = useMemo(() => {
         return shows.map((item) => {
@@ -41,11 +39,7 @@ const ShowList = () => {
     }, [shows]);
 
 
-    if (theatreDetails.length <= 1) {
-        return <>
-            <h1>Invalid Route</h1>
-        </>
-    }
+
     //Table Heading for Movie Table
     const tableHeadings = [
 
@@ -138,7 +132,7 @@ const ShowList = () => {
 
             <Table dataSource={showsData} columns={tableHeadings} />
             {
-                isModalOpen && (<ShowForm />)
+                isModalOpen && (<ShowForm theatreId={theatreId} />)
             }
             {
                 isDeleteModalOpen && (<>Delete me</>)

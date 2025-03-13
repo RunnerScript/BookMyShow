@@ -8,11 +8,13 @@ import { createMovie, updateMovieById } from "../../api/movies";
 import { addShow, modifyShow, closeModal, fetchShowsByTheatre } from "../../redux/showSlice";
 //import { addMovie, updateMovie, deleteMovie } from "../../redux/movieSlice";
 //onCancel={handleCancel}
-const ShowForm = () => {
+const ShowForm = ({ theatreId }) => {
     const { isModalOpen, formType, selectedShow } = useSelector((store) => store.shows);
     const dispatch = useDispatch();
     const { list: movies } = useSelector((store) => store.movies);
-    const { theatreId } = useParams();
+
+
+
     const showData = selectedShow
         ? { ...selectedShow, date: moment(selectedShow.date).format('YYYY-MM-DD') }
         : {};

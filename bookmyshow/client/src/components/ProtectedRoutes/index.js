@@ -91,6 +91,7 @@ const ProtectedRoute = ({ children }) => {
         }
     }, []);
 
+
     return (
         user && (
             <>

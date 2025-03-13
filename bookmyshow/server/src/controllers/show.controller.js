@@ -42,11 +42,15 @@ const getAllShowsByTheatreId = async (req, res) => {
 }
 
 const getTheatreAndShowsByMovieId = async (req, res) => {
-    const { movieId, date } = req.params;
+    const { movieId: movie, date } = req.params;
 
     //get all unique theatres 
     try {
-        let allShows = await ShowModel.find({ movie: movieId, date: date }).populate('theatre');
+
+        let allShows = await ShowModel.find({
+            movie, date
+        }).populate('theatre');
+        console.log(allShows);
         let allUniqueTheatres = {}
 
         allShows.forEach((show) => {

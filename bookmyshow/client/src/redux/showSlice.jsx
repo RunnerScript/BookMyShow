@@ -9,7 +9,7 @@ export const fetchShowsByTheatre = createAsyncThunk('fetch/theatreshows', async 
 
 export const addShow = createAsyncThunk('shows/create', async (payload, { dispatch }) => {
     const response = await createShow(payload);
-    dispatch(fetchShowsByTheatre(payload.theatre));
+    await dispatch(fetchShowsByTheatre(payload.theatre));
     return response.data;
 });
 

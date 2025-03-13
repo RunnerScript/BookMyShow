@@ -1,6 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { createMovie, getAllMovies, updateMovieById } from "../api/movies";
-import { useMovies } from "../hooks/useMovies";
+import { createMovie, getAllMovies, getMovieById, updateMovieById } from "../api/movies";
 
 //Fetch Movies Call
 export const fetchMovies = createAsyncThunk('movies/fetchMovies', async () => {
@@ -29,6 +28,8 @@ export const deleteMovie = createAsyncThunk('delete/movie', async (movieId, { di
     return response.data;
 })
 
+//Get single Movie 
+
 const movieSlice = createSlice({
     name: 'movies',
     initialState: {
@@ -38,7 +39,7 @@ const movieSlice = createSlice({
         isDeleteModalOpen: false,
         formType: 'add',
         status: "idle",
-        error: null
+        error: null,
     },
     reducers: {
         openModal: (state, action) => {
@@ -79,6 +80,7 @@ const movieSlice = createSlice({
                 state.status = 'failed';
                 state.error = action.error.message;
             });
+
 
         // //Add Movie Cases
         // builder
