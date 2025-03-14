@@ -18,6 +18,10 @@
   justify-content: space-between;
 }
 
+.px-2 {
+  padding: 0 2rem;
+}
+
 .justify-content-end {
   justify-content: end;
 }
@@ -28,6 +32,15 @@
 
 .m-2 {
   margin: 2rem;
+}
+
+.my-2 {
+  margin-top: 2rem;
+}
+
+button.bk-btn.booked {
+  cursor: no-drop;
+  background: grey;
 }
 
 .m-0 {
@@ -132,6 +145,33 @@
   padding: 2rem;
 }
 
+.ticket-list {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-top: 2rem;
+  list-style: none;
+  gap: 5px;
+}
+
+.bk-btn {
+  border: 1px solid #eee;
+  padding: 8px;
+  width: 50px;
+  text-align: center;
+  cursor: pointer;
+  background-color: #000;
+  color: #fff;
+  border-radius: 5px;
+}
+
+
+.selected {
+  background-color: green;
+  font-weight: bold;
+}
+
 .show-ul li:hover {
   background-color: orange;
   color: #fff;
@@ -158,5 +198,14 @@
   max-width: 250px;
   min-width: 250px;
   border-radius: 10px;
-  min-height: 250px;
+  min-height: 200px;
+  max-height: 200px;
+}
+
+.flex-wrap {
+  flex-wrap: wrap;
+}
+
+.justify-space-evenly {
+  justify-content: space-evenly;
 }

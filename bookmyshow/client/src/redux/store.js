@@ -5,6 +5,7 @@ import movieReducer from "./movieSlice";
 import theatreReducer from "./theatreSlice";
 import showReducer from './showSlice';
 import singleMovieReducer from './singleMovieSlice';
+import bookReducer from './bookSlice';
 const store = configureStore({
     reducer: {
         loaders: loaderReducer,
@@ -12,7 +13,8 @@ const store = configureStore({
         movies: movieReducer,
         theatres: theatreReducer,
         shows: showReducer,
-        singleMovie: singleMovieReducer
+        singleMovie: singleMovieReducer,
+        booking: bookReducer
     }
 });
 

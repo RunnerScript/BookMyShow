@@ -61,3 +61,17 @@ export async function createShow(payload) {
         }
     }
 }
+
+export async function getShowById(showId) {
+    try {
+        const response = await axiosInstance.get(`http://localhost:8080/api/shows/${showId}`);
+        return response.data;
+
+    } catch (error) {
+        if (error.response) {
+            return error.response;
+        } else {
+            return { data: { success: false, message: "Something went wrong, please try again!" } };
+        }
+    }
+}

@@ -104,8 +104,8 @@ const ProtectedRoute = ({ children }) => {
                     <div className="pading-3 min-height-300 bg-white">{children}</div>
                 </Layout> */}
                 <Layout>
-                    <Header className="z-1  sticky">
-                        <Row className='d-flex justify-center' gutter={{ xs: 10, sm: 10, md: 16, lg: 32 }} >
+                    <Header className="z-1  sticky px-2">
+                        <Row className='justify-content-between' gutter={{ xs: 10, sm: 10, md: 16, lg: 32 }} >
                             <Col span={{ xs: 24, sm: 24, md: 16, lg: 16 }}>
                                 <h1 className="text-white m-0">Book My Show</h1>
                             </Col>

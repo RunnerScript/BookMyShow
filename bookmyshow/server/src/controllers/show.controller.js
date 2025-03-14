@@ -50,7 +50,7 @@ const getTheatreAndShowsByMovieId = async (req, res) => {
         let allShows = await ShowModel.find({
             movie, date
         }).populate('theatre');
-        console.log(allShows);
+        // console.log(allShows);
         let allUniqueTheatres = {}
 
         allShows.forEach((show) => {
@@ -125,6 +125,7 @@ const createNewShow = async (req, res) => {
 
 const getShowById = async (req, res) => {
     const { id: showId } = req.params;
+
     if (!showId) {
         return res.status(400).send({
             success: false,
@@ -132,7 +133,7 @@ const getShowById = async (req, res) => {
         });
     }
     try {
-        const show = await ShowModel.findById(id).populate("movie").populate('theatre');
+        const show = await ShowModel.findById(showId).populate("movie").populate('theatre');
         if (!show) {
             return res.status(400).send({
                 success: false,
@@ -146,7 +147,11 @@ const getShowById = async (req, res) => {
             data: show
         });
     } catch (error) {
-
+        return res.status(500).send({
+            success: false,
+            message: "Internal Server Error",
+            data: error.message
+        });
     }
 }
 
