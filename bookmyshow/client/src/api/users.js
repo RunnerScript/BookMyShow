@@ -52,3 +52,23 @@ export async function GetCurrentUser() {
     }
 
 }
+
+
+export async function forgetPassword(payload) {
+    try {
+        const response = await axiosInstance.patch('http://localhost:8080/api/users/forgetpassword', payload);
+        return response.data;
+    } catch (error) {
+        return error.response;
+    }
+
+}
+
+export async function resetPassword(email, payload) {
+    try {
+        const response = await axiosInstance.post(`http://localhost:8080/api/users/resetpassword/${email}`, payload);
+        return response.data;
+    } catch (error) {
+        return error.response;
+    }
+}

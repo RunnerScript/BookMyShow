@@ -1,6 +1,9 @@
 const User = require('../models/auth.model');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const { otpGenerator } = require("../../utils/appHelper");
+const { EmailHelper } = require("../../utils/emailHelper");
+
 
 const onLogin = async (req, res) => {
 
@@ -81,4 +84,98 @@ const getCurrentUser = async (req, res) => {
         });
     }
 }
-module.exports = { onLogin, onRegister, getCurrentUser };
+
+const forgetPassword = async (req, res) => {
+    const { email } = req.body;
+
+    if (!email) {
+        return res.status(401).send({
+            success: false,
+            message: "Email is required",
+        });
+    }
+
+    try {
+        const user = await User.findOne({ email: email });
+
+        if (!user) {
+            return res.status(401).send({
+                success: false,
+                message: "Invalid Email Address",
+            });
+        }
+
+        const otp = otpGenerator()
+            ;
+        user.otp = otp;
+        user.otpExpiry = Date.now() + 10 * 60 * 1000;
+        await user.save();
+
+        await EmailHelper("otp.html", email, "Reset Password Verification OTP", { name: user.name, otp: otp });
+
+        return res.status(200).send({
+            success: true,
+            message: "OTP sent to your email"
+        });
+    } catch (error) {
+        return res.status(500).send({
+            success: false,
+            message: error.message
+        })
+    }
+
+}
+
+const resetPassword = async (req, res) => {
+    const resetDetails = req.body;
+    const { email } = req.params;
+    console.log(email);
+    if (!resetDetails.password || !resetDetails.otp) {
+        return res.send(400).send({
+            success: false,
+            message: "Email and otp required"
+        });
+    }
+    try {
+        const user = await User.findOne({ email: email });
+        if (!user) {
+            return res.status(404).send({
+                success: false,
+                message: "User not found"
+            });
+        }
+        if (Date.now() > user.otpExpiry) {
+            return res.status(400).send({
+                success: false,
+                message: "OTP is expired"
+            });
+        }
+
+        if (user.otp !== resetDetails.otp) {
+            return res.status(400).send({
+                success: false,
+                message: "Invalid Otp"
+            });
+        }
+
+        const salt = bcrypt.genSaltSync(10);
+        console.log(salt);
+        const hashedPassword = bcrypt.hashSync(resetDetails.password, salt);
+        user.password = hashedPassword;
+        console.log(hashedPassword);
+        user.otp = undefined;
+        user.otpExpiry = undefined;
+        await user.save();
+        return res.status(200).send({
+            success: true,
+            message: "Password Reset Successfully."
+        });
+    } catch (error) {
+        return res.status(500).send({
+            success: false,
+            message: error.message
+        });
+    }
+}
+
+module.exports = { onLogin, onRegister, getCurrentUser, forgetPassword, resetPassword };

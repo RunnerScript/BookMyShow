@@ -12,6 +12,8 @@ import Dashboard from './pages/Admin/Dashboard';
 import PartnerDashboard from './pages/Partner/Dashboard';
 import ShowList from './pages/Partner/ShowList';
 import Profile from './pages/User/Profile';
+import ForgetPassword from './pages/User/ForgetPassword';
+import ResetPassword from './pages/User/ResetPassword';
 function App() {
   return (
     <Provider store={store}>
@@ -20,6 +22,8 @@ function App() {
           <Route path='' element={<ProtectedRoute><Home /></ProtectedRoute>} />
           <Route path='login/' element={<Login />} />
           <Route path='register/' element={<Register />} />
+          <Route path='forget/' element={<ForgetPassword />} />
+          <Route path='reset/:email' element={<ResetPassword />} />
           <Route path='admin/' element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
           <Route path='partner/' element={<ProtectedRoute><PartnerDashboard /></ProtectedRoute>} />
           <Route path='profile/' element={<ProtectedRoute><Profile /></ProtectedRoute>} />

@@ -1,4 +1,4 @@
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useMemo } from 'react';
 import { fetchShowById } from '../../redux/bookSlice';
@@ -14,9 +14,9 @@ const PUBLISH_KEY = "pk_test_51Ljz7CCSTbwgv1CuvxS28FmsErB5NE9EACJZCKSTv2LvK5fFdn
 const BookShow = () => {
     const { movieId, showId } = useParams();
     const { selectedShow, selectedSeats, status, error } = useSelector((store) => store.booking);
-
     const { user } = useSelector((store) => store.users);
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     useEffect(() => {
         dispatch(fetchShowById(showId));
     }, []);
@@ -24,6 +24,7 @@ const BookShow = () => {
 
     const totalSeats = selectedShow ? selectedShow.totalSeats : 0;
     const bookedSeats = selectedShow ? selectedShow.bookedSeats : [];
+
 
     const handleSelection = (selectedSeats, seat) => {
         if (selectedSeats.find(selected => selected === seat)) {
@@ -87,7 +88,8 @@ const BookShow = () => {
             if (response.success) {
                 message.success(response.message);
                 const transactionId = response.data;
-                book(transactionId);
+                await book(transactionId);
+                navigate('/profile');
             }
             else {
                 message.error(response.message);

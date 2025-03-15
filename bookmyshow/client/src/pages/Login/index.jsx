@@ -75,6 +75,7 @@ const Login = () => {
                     </Form>
 
                     <Typography.Paragraph>New User ? Click here to <Link to="/register"> Register </Link> </Typography.Paragraph>
+                    <Typography.Paragraph>Forget Password ?  <Link to="/forget"> Click Here </Link> </Typography.Paragraph>
                 </Card>
             </Flex>
         </>
